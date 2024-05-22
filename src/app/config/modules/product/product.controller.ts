@@ -11,7 +11,7 @@ const createProduct = async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      message: "Product has been created!",
+      message: "Product created successfully!",
       data: result,
     });
   } catch (err) {
@@ -29,7 +29,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     const result = await productServices.getAllProducts(searchTerm);
     res.json({
       success: true,
-      message: "Show All Products!",
+      message: "Products fetched successfully!",
       data: result,
     });
   } catch (err) {
@@ -53,7 +53,7 @@ const getSingleProductById = async (req: Request, res: Response) => {
     }
     res.json({
       success: true,
-      message: "Show Single Product!",
+      message: "Product fetched successfully!",
       data: result,
     });
   } catch (err) {
@@ -75,7 +75,7 @@ const updateProduct = async (req: Request, res: Response) => {
     );
     res.json({
       success: true,
-      message: "Product has been updated!",
+      message: "Product updated successfully!",
       data: result,
     });
   } catch (err) {
@@ -93,7 +93,7 @@ const deleteProduct = async (req: Request, res: Response) => {
     await productServices.deleteProduct(productId);
     res.json({
       success: true,
-      message: "Product has deleted successfully!",
+      message: "Product deleted successfully!",
       data: null,
     });
   } catch (err) {
