@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { productServices } from "./product.service";
+import { ProductServices } from "./product.service";
 import { productValidationSchema } from "./product.validation";
 
 const createProduct = async (req: Request, res: Response) => {
@@ -7,7 +7,7 @@ const createProduct = async (req: Request, res: Response) => {
     const data = req.body;
     const product = productValidationSchema.parse(data);
 
-    const result = await productServices.createProduct(product);
+    const result = await ProductServices.createProduct(product);
 
     res.json({
       success: true,
@@ -26,7 +26,7 @@ const createProduct = async (req: Request, res: Response) => {
 const getAllProducts = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
-    const result = await productServices.getAllProducts(searchTerm);
+    const result = await ProductServices.getAllProducts(searchTerm);
     res.json({
       success: true,
       message: "Products fetched successfully!",
@@ -43,7 +43,7 @@ const getAllProducts = async (req: Request, res: Response) => {
 const getSingleProductById = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const result = await productServices.getSingleProductById(productId);
+    const result = await ProductServices.getSingleProductById(productId);
     if (!result) {
       return res.status(400).json({
         success: false,
@@ -69,7 +69,7 @@ const updateProduct = async (req: Request, res: Response) => {
     const { productId } = req.params;
     const data = req.body;
     const updatedProduct = productValidationSchema.parse(data);
-    const result = await productServices.updateProduct(
+    const result = await ProductServices.updateProduct(
       productId,
       updatedProduct
     );
@@ -90,7 +90,7 @@ const updateProduct = async (req: Request, res: Response) => {
 const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    await productServices.deleteProduct(productId);
+    await ProductServices.deleteProduct(productId);
     res.json({
       success: true,
       message: "Product deleted successfully!",

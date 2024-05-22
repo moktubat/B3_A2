@@ -1,8 +1,8 @@
-import { Schema, model } from 'mongoose'
-import { TOrder } from './order.interface'
-import { Product } from '../product/product.model'
+import { Schema, model } from "mongoose";
+import { ProductModel } from "../product/product.model";
+import { Order } from "./order.interface";
 
-const orderSchema = new Schema<TOrder>({
+const orderSchema = new Schema<Order>({
   email: {
     type: String,
     required: true,
@@ -19,44 +19,41 @@ const orderSchema = new Schema<TOrder>({
     type: Number,
     required: true,
   },
-})
+});
 
-orderSchema.pre('save', async function (next) {
-  const result = await Product.findById(this.productId)
+orderSchema.pre("save", async function (next) {
+  const result = await ProductModel.findById(this.productId);
   if (!result) {
-    throw new Error('Product does not exists by this productId')
+    throw new Error("Product not found by this productId");
   }
-  // checks if the requested quantity is greater then the product quantity
 
   const {
     inventory: { quantity },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }: any = await Product.findById(this.productId)
+  }: any = await ProductModel.findById(this.productId);
 
   if (quantity < this.quantity) {
-    throw new Error('Insufficient quantity available in inventory')
+    throw new Error("Quantity available in inventory");
   }
 
-  // reduce the product quantity
-  const updatedProduct = await Product.findByIdAndUpdate(
+  const updatedProduct = await ProductModel.findByIdAndUpdate(
     this.productId,
     {
       $inc: {
-        'inventory.quantity': -this.quantity,
+        "inventory.quantity": -this.quantity,
       },
     },
-    { new: true },
-  )
-  // update the instock if quantity is 0
+    { new: true }
+  );
+
   if (updatedProduct?.inventory.quantity === 0) {
-    await Product.findByIdAndUpdate(this.productId, {
+    await ProductModel.findByIdAndUpdate(this.productId, {
       $set: {
-        'inventory.inStock': false,
+        "inventory.inStock": false,
       },
-    })
+    });
   }
 
-  next()
-})
+  next();
+});
 
-export const Order = model<TOrder>('Order', orderSchema)
+export const OrderModel = model<Order>("Order", orderSchema);
