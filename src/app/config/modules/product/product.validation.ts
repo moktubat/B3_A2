@@ -4,14 +4,14 @@ const inventoryValidationSchema = z.object({
   quantity: z
     .number()
     .int()
-    .nonnegative('quantity cannot be negetive')
-    .min(1, 'quantity is required'),
+    .nonnegative('Quantity Number Not Has Been None Negative')
+    .min(1, 'Quantity Number is required'),
   inStock: z.boolean(),
 })
 
 const variantsValidationSchema = z.object({
-  type: z.string().min(1, 'type is required'),
-  value: z.string().min(1, 'value is required'),
+  type: z.string().min(1, 'Type is required.'),
+  value: z.string().min(1, 'Value is required.'),
 })
 
 export const productValidationSchema = z.object({
@@ -20,7 +20,7 @@ export const productValidationSchema = z.object({
   price: z.number().min(1, 'Prize is required'),
   category: z.string().min(1, 'Category is required'),
   tags: z.string().array(),
-  variants: z.array(variantsValidationSchema).min(1, 'varitants are required'),
+  variants: z.array(variantsValidationSchema).min(1, 'Variants are required'),
   inventory: inventoryValidationSchema,
 })
 
