@@ -13,7 +13,7 @@ app.use("/api/products", productRouter);
 app.use("/api/orders", orderRouter);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send("I am on!");
 });
 
 export default app;
